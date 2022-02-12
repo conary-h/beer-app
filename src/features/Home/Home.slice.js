@@ -1,25 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getCatalog } from './Home.thunks';
+import { getSuggestedCatalog } from './Home.thunks';
 
 export const homeSlice = createSlice({
   name: 'home',
   initialState: {
     status: 'idle',
     error: null,
-    cards: [],
+    suggestedItems: [],
   },
   reducers: {},
   extraReducers: (builder) =>
     builder
-      .addCase(getCatalog.pending, (state) => {
+      .addCase(getSuggestedCatalog.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(getCatalog.fulfilled, (state, { payload }) => {
+      .addCase(getSuggestedCatalog.fulfilled, (state, { payload }) => {
         state.status = 'done';
 
-        state.cards = payload;
+        console.log('payload', payload);
+
+        state.suggestedItems = payload;
       })
-      .addCase(getCatalog.rejected, (state) => {
+      .addCase(getSuggestedCatalog.rejected, (state) => {
         state.status = 'rejected';
       }),
 });
