@@ -1,37 +1,28 @@
-import React, { useEffect } from 'react';
-import Select from 'react-select';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Placeholder, Card } from 'react-bootstrap';
+import SearchDropdown from './components/SearchDropdown';
+import SuggestedList from './components/SuggestedList';
 import { getSuggestedCatalog } from '.';
 
 export default function Home() {
   const dispatch = useDispatch();
   const { suggestedItems, status } = useSelector((state) => state.home);
-  const onDropdownChange = (items) => {
-    console.log('changed');
-  };
 
   useEffect(() => {
     dispatch(getSuggestedCatalog());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
   return (
     <>
-      <Container>
+      <Container style={{ marginTop: '60px' }}>
         <Row>
           <h1>Search your beer!</h1>
-          <Select
-            onChange={onDropdownChange}
-            name="filters"
-            options={[{ value: 'ci', label: 'simon' }].map((tag) => ({
-              value: tag.value,
-              label: tag.label,
-            }))}
-            className="Companies__Dropdown"
-          />
+          <SearchDropdown />
         </Row>
         <Row>
-          <h2>Our preferred Malt</h2>
+          <h2 style={{ margin: '1rem 0' }}>Our preferred Malt</h2>
           <Col xs={12} style={{ marginBottom: '50px' }}>
             Eiusmod dolore proident esse eiusmod sit ipsum pariatur et deserunt
             et Lorem quis. Id quis ea ea exercitation occaecat reprehenderit
@@ -56,6 +47,7 @@ export default function Home() {
             </Card>
           </Row>
         )}
+        {status === 'done' && <SuggestedList items={suggestedItems} />}
       </Container>
     </>
   );
