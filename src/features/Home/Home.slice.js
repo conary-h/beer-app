@@ -6,6 +6,7 @@ export const homeSlice = createSlice({
   initialState: {
     status: 'idle',
     error: null,
+    searchResults: [],
   },
   reducers: {},
   extraReducers: (builder) =>
@@ -16,9 +17,7 @@ export const homeSlice = createSlice({
       .addCase(searchBeerByName.fulfilled, (state, { payload }) => {
         state.status = 'done';
 
-        console.log('payload', payload);
-
-        state.suggestedItems = payload;
+        state.searchResults = payload;
       })
       .addCase(searchBeerByName.rejected, (state) => {
         state.status = 'rejected';

@@ -11,3 +11,9 @@
   object-fit: contain;
   padding: 0.8rem;
 }
+
+.card__button {
+  display: flex !important;
+  margin: 0 auto;
+  font-size: 1rem !important;
+}

@@ -9,18 +9,15 @@ import styles from './Home.module.css';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const [results, setResults] = useState([]);
   const [showAlert, setShowAlert] = useState(false);
-  const { status } = useSelector((state) => state.home);
+  const { status, searchResults } = useSelector((state) => state.home);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce(async (e) => {
       try {
         const text = e.target.value.replaceAll(' ', '_');
-        const results = await dispatch(searchBeerByName(text)).unwrap();
-
-        setResults(results);
+        dispatch(searchBeerByName(text));
       } catch (error) {
         console.error(error);
       }
@@ -43,7 +40,7 @@ export default function Home() {
         </Row>
 
         {status === 'loading' && <ResultsList.Skeleton />}
-        {status === 'done' && <ResultsList items={results} />}
+        {status === 'done' && <ResultsList items={searchResults} />}
         {status === 'error' && showAlert && (
           <Alert
             variant="danger"
