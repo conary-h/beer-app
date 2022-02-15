@@ -8,7 +8,11 @@ export const homeSlice = createSlice({
     error: null,
     searchResults: [],
   },
-  reducers: {},
+  reducers: {
+    clearResults: (state) => {
+      state.searchResults = [];
+    },
+  },
   extraReducers: (builder) =>
     builder
       .addCase(searchBeerByName.pending, (state) => {
@@ -23,5 +27,7 @@ export const homeSlice = createSlice({
         state.status = 'rejected';
       }),
 });
+
+export const { clearResults } = homeSlice.actions;
 
 export default homeSlice.reducer;

@@ -1,0 +1,9 @@
+.main__image {
+  display: flex;
+  margin: 0 auto;
+  max-height: 30rem;
+}
+
+.title {
+  font-size: 1.7rem;
+}

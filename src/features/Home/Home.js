@@ -3,7 +3,8 @@ import { debounce } from 'lodash';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Alert } from 'react-bootstrap';
-import { searchBeerByName } from '.';
+import { searchBeerByName } from './Home.thunks';
+import { clearResults } from './Home.slice';
 import ResultsList from './components/ResultsList';
 import styles from './Home.module.css';
 
@@ -15,9 +16,14 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce(async (e) => {
+      const text = e.target.value;
+
       try {
-        const text = e.target.value.replaceAll(' ', '_');
-        dispatch(searchBeerByName(text));
+        if (!text.trim()) {
+          dispatch(clearResults());
+          return;
+        }
+        dispatch(searchBeerByName(text.replaceAll(' ', '_')));
       } catch (error) {
         console.error(error);
       }

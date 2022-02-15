@@ -17,7 +17,7 @@ export const detailsSlice = createSlice({
       .addCase(getBeerDetails.fulfilled, (state, { payload }) => {
         state.status = 'done';
 
-        state.details = payload;
+        state.details = payload[0];
       })
       .addCase(getBeerDetails.rejected, (state) => {
         state.status = 'rejected';
