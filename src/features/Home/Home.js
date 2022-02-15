@@ -2,23 +2,23 @@ import React, { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Alert } from 'react-bootstrap';
 import { searchBeerByName } from '.';
 import ResultsList from './components/ResultsList';
+import styles from './Home.module.css';
 
 export default function Home() {
   const dispatch = useDispatch();
   const [results, setResults] = useState([]);
-
+  const [showAlert, setShowAlert] = useState(false);
   const { status } = useSelector((state) => state.home);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleSearch = useCallback(
     debounce(async (e) => {
       try {
-        const results = await dispatch(
-          searchBeerByName(e.target.value)
-        ).unwrap();
+        const text = e.target.value.replaceAll(' ', '_');
+        const results = await dispatch(searchBeerByName(text)).unwrap();
 
         setResults(results);
       } catch (error) {
@@ -31,24 +31,29 @@ export default function Home() {
   return (
     <>
       <Container style={{ marginTop: '60px' }}>
-        <Row>
-          <h1>Search your beer!</h1>
-          <Form.Control
-            type="text"
-            placeholder="Enter email"
-            onChange={handleSearch}
-          />
-        </Row>
-        <Row>
-          <h2 style={{ margin: '1rem 0' }}>Our preferred Malt</h2>
-          <Col xs={12} style={{ marginBottom: '50px' }}>
-            Eiusmod dolore proident esse eiusmod sit ipsum pariatur et deserunt
-            et Lorem quis. Id quis ea ea exercitation occaecat reprehenderit
-            consectetur et. Deserunt nostrud velit mollit ad magna quis elit ex
+        <Row style={{ marginBottom: '3rem', justifyContent: 'center' }}>
+          <h1 className={styles.title}>Search your beer:</h1>
+          <Col xs={12} xl={4}>
+            <Form.Control
+              type="text"
+              placeholder="Enter beer name"
+              onChange={handleSearch}
+            />
           </Col>
         </Row>
+
         {status === 'loading' && <ResultsList.Skeleton />}
         {status === 'done' && <ResultsList items={results} />}
+        {status === 'error' && showAlert && (
+          <Alert
+            variant="danger"
+            onClose={() => setShowAlert(false)}
+            dismissible
+          >
+            <Alert.Heading>Oh snap! You got an error!</Alert.Heading>
+            <p>There was an error getting your results!</p>
+          </Alert>
+        )}
       </Container>
     </>
   );
