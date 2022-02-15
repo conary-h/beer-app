@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
+import Skeleton from './Skeleton';
 
 export default function ResultsList({ items }) {
   return (
@@ -28,3 +29,5 @@ export default function ResultsList({ items }) {
     </Row>
   );
 }
+
+ResultsList.Skeleton = Skeleton;

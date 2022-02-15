@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, Placeholder, Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { searchBeerByName } from '.';
 import ResultsList from './components/ResultsList';
 
@@ -47,23 +47,7 @@ export default function Home() {
             consectetur et. Deserunt nostrud velit mollit ad magna quis elit ex
           </Col>
         </Row>
-        {status === 'loading' && (
-          <Row>
-            <Card style={{ width: '18rem' }}>
-              <Card.Img variant="top" src="holder.js/100px180" />
-              <Card.Body>
-                <Placeholder as={Card.Title} animation="glow">
-                  <Placeholder xs={6} />
-                </Placeholder>
-                <Placeholder as={Card.Text} animation="glow">
-                  <Placeholder xs={7} /> <Placeholder xs={4} />{' '}
-                  <Placeholder xs={4} /> <Placeholder xs={6} />{' '}
-                  <Placeholder xs={8} />
-                </Placeholder>
-              </Card.Body>
-            </Card>
-          </Row>
-        )}
+        {status === 'loading' && <ResultsList.Skeleton />}
         {status === 'done' && <ResultsList items={results} />}
       </Container>
     </>
