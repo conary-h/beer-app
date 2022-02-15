@@ -1,12 +1,12 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-export const getSuggestedCatalog = createAsyncThunk(
-  'home/getSuggestedCatalog',
-  async (_, { rejectWithValue }) => {
+export const searchBeerByName = createAsyncThunk(
+  'home/searchBeerByName',
+  async (beerName, { rejectWithValue }) => {
     try {
       const { data, status } = await axios.get(
-        'https://api.punkapi.com/v2/beers?malt=extra_pale&per_page=4'
+        `https://api.punkapi.com/v2/beers?beer_name=${beerName}&per_page=10`
       );
 
       if (status === 200) return data;

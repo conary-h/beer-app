@@ -1,25 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
+import { debounce } from 'lodash';
+import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Placeholder, Card } from 'react-bootstrap';
-import SearchDropdown from './components/SearchDropdown';
-import SuggestedList from './components/SuggestedList';
-import { getSuggestedCatalog } from '.';
+import { searchBeerByName } from '.';
+import ResultsList from './components/ResultsList';
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { suggestedItems, status } = useSelector((state) => state.home);
+  const [results, setResults] = useState([]);
 
-  useEffect(() => {
-    dispatch(getSuggestedCatalog());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { status } = useSelector((state) => state.home);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleSearch = useCallback(
+    debounce(async (e) => {
+      try {
+        const results = await dispatch(
+          searchBeerByName(e.target.value)
+        ).unwrap();
+
+        setResults(results);
+      } catch (error) {
+        console.error(error);
+      }
+    }, 300),
+    []
+  );
 
   return (
     <>
       <Container style={{ marginTop: '60px' }}>
         <Row>
           <h1>Search your beer!</h1>
-          <SearchDropdown />
+          <Form.Control
+            type="text"
+            placeholder="Enter email"
+            onChange={handleSearch}
+          />
         </Row>
         <Row>
           <h2 style={{ margin: '1rem 0' }}>Our preferred Malt</h2>
@@ -42,12 +60,11 @@ export default function Home() {
                   <Placeholder xs={4} /> <Placeholder xs={6} />{' '}
                   <Placeholder xs={8} />
                 </Placeholder>
-                <Placeholder.Button variant="primary" xs={6} />
               </Card.Body>
             </Card>
           </Row>
         )}
-        {status === 'done' && <SuggestedList items={suggestedItems} />}
+        {status === 'done' && <ResultsList items={results} />}
       </Container>
     </>
   );

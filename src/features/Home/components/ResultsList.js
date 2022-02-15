@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 
-export default function SuggestedList({ items }) {
+export default function ResultsList({ items }) {
   return (
     <Row style={{ justifyContent: 'center' }}>
       {items.map((item) => (
