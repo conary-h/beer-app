@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <>
       <Container style={{ marginTop: '60px' }}>
-        <Row style={{ marginBottom: '3rem', justifyContent: 'center' }}>
+        <Row style={{ margin: '4.5rem 0 3rem', justifyContent: 'center' }}>
           <h1 className={styles.title}>Search your beer:</h1>
           <Col xs={12} xl={4}>
             <Form.Control
