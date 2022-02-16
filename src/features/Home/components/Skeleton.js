@@ -3,12 +3,12 @@ import { Row, Col, Card, Placeholder } from 'react-bootstrap';
 import image from '../../../images/skeleton-card-image.jpeg';
 
 export default function Skeleton() {
-  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const items = Array.from({ length: 12 });
   return (
     <Row>
-      {items.map((item) => (
+      {items.map((_, index) => (
         <Col
-          key={item}
+          key={index}
           xs="10"
           md="6"
           lg="4"
