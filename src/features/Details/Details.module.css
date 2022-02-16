@@ -1,3 +1,6 @@
+.details__content {
+  padding-bottom: 5rem;
+}
 .main__image {
   display: flex;
   margin: 0 auto;
@@ -10,4 +13,21 @@
 
 .ingredient__amount {
   margin-left: auto;
+}
+.section__title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ingredients__wrapper {
+  margin-top: 3rem;
+  background: #eee;
+  justify-content: center;
+  padding: 3rem 25rem 10rem;
+}
+.list__group {
+  margin-bottom: 2rem;
+}
+.list__title {
+  text-align: center;
 }

@@ -2,7 +2,8 @@ import React, { useCallback, useState } from 'react';
 import { debounce } from 'lodash';
 import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Alert, InputGroup } from 'react-bootstrap';
+import { Search } from 'react-feather';
 import { searchBeerByName } from './Home.thunks';
 import { clearResults } from './Home.slice';
 import ResultsList from './components/ResultsList';
@@ -37,11 +38,16 @@ export default function Home() {
         <Row style={{ margin: '4.5rem 0 3rem', justifyContent: 'center' }}>
           <h1 className={styles.title}>Search your beer:</h1>
           <Col xs={12} xl={4}>
-            <Form.Control
-              type="text"
-              placeholder="Enter beer name"
-              onChange={handleSearch}
-            />
+            <InputGroup>
+              <Form.Control
+                type="text"
+                placeholder="Type beer name"
+                onChange={handleSearch}
+              />
+              <InputGroup.Text>
+                <Search width={15} height={15} />
+              </InputGroup.Text>
+            </InputGroup>
           </Col>
         </Row>
 

@@ -8,6 +8,8 @@ import {
   Col,
   Badge,
   Spinner,
+  Accordion,
+  ProgressBar,
 } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { useParams } from 'react-router-dom';
@@ -41,7 +43,7 @@ export default function Details() {
       )}
 
       {status === 'done' && (
-        <>
+        <div className={styles.details__content}>
           <Row>
             <Col>
               <h1 className={styles?.title}>{details?.name}</h1>
@@ -54,14 +56,17 @@ export default function Details() {
             </Col>
           </Row>
 
-          <Row style={{ marginTop: '3rem' }}>
-            <h2 style={{ textAlign: 'center' }}>Ingredients</h2>
-            <Col xs={12} lg={5}>
-              <ListGroup variant="flush">
-                {uniqBy(ingredients?.hops, 'name').map((item) => (
-                  <ListGroup.Item style={{ display: 'flex' }}>
+          <Row style={{ margin: '3rem 0 4rem' }}>
+            <h2 className={styles.section__title}>Ingredients</h2>
+            <Col xs={12} lg={6}>
+              <ListGroup className={styles.list__group} variant="flush">
+                <h5 className={styles.list__title}>Hops</h5>
+                {uniqBy(ingredients?.hops, 'name').map((item, index) => (
+                  <ListGroup.Item
+                    key={`ingredient-hops-${index}`}
+                    style={{ display: 'flex' }}
+                  >
                     {item?.name}
-
                     <span
                       className={styles.ingredient__amount}
                     >{`${item?.amount?.value} ${item?.amount?.unit}`}</span>
@@ -76,12 +81,15 @@ export default function Details() {
               </ListGroup>
             </Col>
 
-            <Col xs={12} lg={5}>
-              <ListGroup variant="flush">
-                {uniqBy(ingredients?.malt, 'name').map((item) => (
-                  <ListGroup.Item style={{ display: 'flex' }}>
+            <Col xs={12} lg={6}>
+              <ListGroup className={styles.list__group} variant="flush">
+                <h5 className={styles.list__title}>Malt</h5>
+                {uniqBy(ingredients?.malt, 'name').map((item, index) => (
+                  <ListGroup.Item
+                    key={`ingredient-malt-${index}`}
+                    style={{ display: 'flex' }}
+                  >
                     {item?.name}
-
                     <span
                       className={styles.ingredient__amount}
                     >{`${item?.amount?.value} ${item?.amount?.unit}`}</span>
@@ -90,7 +98,50 @@ export default function Details() {
               </ListGroup>
             </Col>
           </Row>
-        </>
+
+          <Row>
+            <h2 className={styles.section__title}>Additional information</h2>
+
+            <Col>
+              <h6 style={{ marginBottom: '1rem' }}>Attenuation level</h6>
+              <ProgressBar
+                now={details?.attenuation_level}
+                label={`${details?.attenuation_level}`}
+              />
+            </Col>
+
+            <Accordion defaultActiveKey="0" style={{ marginTop: '3rem' }}>
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Food Pairing</Accordion.Header>
+                <Accordion.Body>
+                  {details?.food_pairing.map((item, index) => (
+                    <div key={index}>{item}</div>
+                  ))}
+                </Accordion.Body>
+              </Accordion.Item>
+              <Accordion.Item eventKey="1">
+                <Accordion.Header>First Brewed</Accordion.Header>
+                <Accordion.Body>
+                  This incredible beer was originally brewed on &nbsp;
+                  {details?.first_brewed}
+                </Accordion.Body>
+              </Accordion.Item>
+
+              <Accordion.Item eventKey="2">
+                <Accordion.Header>Contributed by</Accordion.Header>
+                <Accordion.Body>
+                  Awesome contributions made by: &nbsp;
+                  {details?.contributed_by}
+                </Accordion.Body>
+              </Accordion.Item>
+
+              <Accordion.Item eventKey="3">
+                <Accordion.Header>Brewer Tips</Accordion.Header>
+                <Accordion.Body>{details?.brewers_tips}</Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </Row>
+        </div>
       )}
     </Container>
   );
