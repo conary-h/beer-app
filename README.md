@@ -1,9 +1,7 @@
 <div align="center">
-  <img src="https://freepngdesign.com/content/uploads/images/beer-icon-3861162445.png" width="150" height="100"/>
+  <img src="https://freepngdesign.com/content/uploads/images/beer-icon-3861162445.png" width="120" height="90"/>
   <br/>
 </div>
-
-<br/>
 
 # Beer App
 
